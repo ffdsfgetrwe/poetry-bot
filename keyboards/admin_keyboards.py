@@ -15,6 +15,23 @@ def get_admin_menu():
     ]
     return InlineKeyboardMarkup(keyboard)
 
+def get_blacklist_pagination_keyboard(current_page: int, total_pages: int) -> InlineKeyboardMarkup:
+    """Клавиатура пагинации для черного списка"""
+    buttons = []
+    
+    if current_page > 0:
+        buttons.append(InlineKeyboardButton("◀️ Назад", callback_data=f"blacklist_page_{current_page-1}"))
+    
+    buttons.append(InlineKeyboardButton(f"{current_page+1}/{total_pages}", callback_data="noop"))
+    
+    if current_page < total_pages - 1:
+        buttons.append(InlineKeyboardButton("Вперед ▶️", callback_data=f"blacklist_page_{current_page+1}"))
+    
+    buttons.append(InlineKeyboardButton("🔙 Назад", callback_data="admin_blacklist"))
+    
+    return InlineKeyboardMarkup([buttons])
+
+
 def get_blacklist_menu():
     """Меню управления черным списком"""
     keyboard = [

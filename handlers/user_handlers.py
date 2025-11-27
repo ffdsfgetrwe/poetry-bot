@@ -16,7 +16,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     # Проверка черного списка
     if db.is_user_blacklisted(user.id) and user.id != ADMIN_ID:
-        await update.message.reply_text("⛔ Доступ к боту ограничен.")
+        await update.message.reply_text("Ошибка сервера.")
         return
     
     # Добавляем/обновляем пользователя в базе
@@ -42,7 +42,7 @@ async def handle_main_menu_callbacks(update: Update, context: ContextTypes.DEFAU
     
     # Проверка черного списка (кроме админа)
     if db.is_user_blacklisted(user_id) and user_id != ADMIN_ID:
-        await query.edit_message_text("⛔ Доступ к боту ограничен.")
+        await query.edit_message_text("Ошибка сервера.")
         return
     
     callback_data = query.data
@@ -106,7 +106,7 @@ async def start_application(query, context: ContextTypes.DEFAULT_TYPE):
     # Отправляем новое сообщение с инструкцией и СОХРАНЯЕМ ЕГО ID
     instruction_message = await query.message.reply_text(
         "📝 Подача заявки на поэтический вечер:\n\n"
-        "Пожалуйста, введите текст вашего стихотворения:",
+        "Шаг 1/2. Пожалуйста, введите текст вашего стихотворения:",
         reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 Отмена", callback_data="cancel_application")]])
     )
     
@@ -136,13 +136,21 @@ async def handle_application_text(update: Update, context: ContextTypes.DEFAULT_
     user = update.effective_user
     message_text = update.message.text
     
+    # Валидация длины стихотворения
+    if len(message_text) < 10:
+        await update.message.reply_text("❌ Стихотворение слишком короткое. Минимум 10 символов.")
+        return
+    if len(message_text) > 4000:
+        await update.message.reply_text("❌ Стихотворение превышает лимит в 4000 символов.")
+        return
+    
     logger.info(f"=== ОБРАБОТКА ТЕКСТА ЗАЯВКИ ===")
     logger.info(f"User ID: {user.id}")
     logger.info(f"awaiting_poem: {context.user_data.get('awaiting_poem')}")
     
     # Проверка черного списка (кроме админа)
     if db.is_user_blacklisted(user.id) and user.id != ADMIN_ID:
-        await update.message.reply_text("⛔ Доступ к боту ограничен.")
+        await update.message.reply_text("Ошибка сервера.")
         return
     
     # Обработка текста стихотворения ТОЛЬКО если пользователь в состоянии подачи заявки
@@ -189,7 +197,7 @@ async def handle_application_text(update: Update, context: ContextTypes.DEFAULT_
         # Отправляем новое сообщение с выбором второго блока
         await update.message.reply_text(
             "✅ Стихотворение получено!\n\n"
-            "Хотите ли вы также выступить во втором блоке вечера?",
+            "Шаг 2/2. Хотите ли вы также выступить во втором блоке вечера?",
             reply_markup=get_second_block_keyboard()
         )
     else:

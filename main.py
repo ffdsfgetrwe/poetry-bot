@@ -52,7 +52,7 @@ def setup_handlers(application):
         pattern="^admin_"
     ))
     
-    # И ДОБАВЬТЕ обработчик для кнопок принятия/отклонения:
+    # Обработчик для кнопок принятия/отклонения:
     application.add_handler(CallbackQueryHandler(
         handle_admin_callbacks,
         pattern="^(approve_|reject_|nav_)"
@@ -77,7 +77,7 @@ def setup_handlers(application):
         pattern="^(admin_rules|admin_about|cancel_edit)$"
     ))
     
-    # 3. ЕДИНЫЙ обработчик сообщений для всех
+    # 3. Единый обработчик сообщений для всех
     application.add_handler(MessageHandler(
         filters.TEXT & ~filters.COMMAND,
         route_message

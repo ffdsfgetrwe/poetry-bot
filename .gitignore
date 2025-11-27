@@ -38,8 +38,6 @@ data/
 # Временные файлы и бэкапы
 *.bak
 *_backup_*
-all_python_code.txt
-poetry_bot_complete_backup_*.sh
 
 # IDE
 .vscode/
@@ -51,6 +49,6 @@ poetry_bot_complete_backup_*.sh
 .DS_Store
 Thumbs.db
 
-# Папка app (если она не нужна)
+# Папка app 
 /app/
 app/

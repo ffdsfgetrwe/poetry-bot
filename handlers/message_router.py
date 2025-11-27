@@ -63,3 +63,15 @@ async def get_admin_main_menu():
     from keyboards.admin_keyboards import get_admin_menu
     from keyboards.user_keyboards import get_main_menu
     return get_admin_menu()
+
+async def handle_admin_text_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Обработка текстовых сообщений для администратора"""
+    user = update.effective_user
+    
+    # Проверяем, является ли пользователь администратором
+    if user.id != ADMIN_ID:
+        return
+    
+    # Обработка сообщений для черного списка и рассылки
+    await handle_broadcast_message(update, context)
+    await handle_blacklist_message(update, context)

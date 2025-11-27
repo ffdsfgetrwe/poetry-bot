@@ -17,9 +17,9 @@ DB_NAME = os.getenv('DB_NAME', '/app/data/poetry_bot.db')
 
 # Настройки логирования
 LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO').upper()
-LOG_FILE = os.getenv('LOG_FILE', '/app/logs/bot.log')
+LOG_FILE = os.getenv('LOG_FILE', '/app/bot.log')
 LOG_ROTATION_DAYS = int(os.getenv('LOG_ROTATION_DAYS', '7'))
 
-# Создание директорий если не существуют
+# Создание директорий
 os.makedirs(os.path.dirname(DB_NAME), exist_ok=True)
 os.makedirs(os.path.dirname(LOG_FILE), exist_ok=True)
