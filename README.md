@@ -40,9 +40,9 @@ pip install python-telegram-bot python-dotenv
    - Узнайте свой ID в Telegram (можно через @userinfobot)
    - Создайте файл .env и добавьте туда:
      
-```BOT_TOKEN=токен_вашего_бота
+```BOT_TOKEN=токен_вашего_бота ADMIN_ID=ваш_telegram_id
+```
 
-ADMIN_ID=ваш_telegram_id```
 
 4. **Запустите бота:**
 
